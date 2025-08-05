@@ -6,7 +6,7 @@ All data and code run locally—no login or backend needed.*
 
 ## Live demo
 
-Available at [Spelling AB](https://simonpaullai.github.io/5kVocabulary/).
+Available at [[Spelling AB](https://simonpaullai.github.io/5kVocabulary/)].
 
 ## Features
 
