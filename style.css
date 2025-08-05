@@ -1,64 +1,67 @@
-body {
-  background-color: #0f1219;
-  color: #d6dee9;
-  font-family: 'Segoe UI', 'Orbitron', 'Helvetica Neue', sans-serif;
-  letter-spacing: 0.04em;
+/* --- Global 基礎 --- */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #0f1219;
+  font-family: 'Segoe UI', 'Orbitron', 'Helvetica Neue', sans-serif;
+  color: #dfe6ec;
+  letter-spacing: 0.04em;
+}
+
+body {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  color: #dfe6ec;
+  box-sizing: border-box;
 }
 
+/* --- Main Container --- */
 .container {
-  max-width: 600px;
-  padding: 40px 20px 32px; /* 上下內距，讓內容不擠 */
-  padding: 20px;
-  background-color: #2a2f3a;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-  border-radius: 12px;
+  max-width: 520px;
+  width: 90vw;
+  background: #2a2f3a;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.44);
+  border-radius: 18px;
   text-align: center;
+  padding: 40px 42px 32px 42px;
+  margin: 32px 0;
+  transition: max-width 0.2s, padding 0.2s;
 }
 
+/* --- Title --- */
 h1 {
-  font-size: 2.4rem;
+  font-size: clamp(2.4rem, 4vw, 3.3rem);
   margin-bottom: 28px;
   letter-spacing: 1.5px;
   color: #e6ecf1;
 }
 
+/* --- Word Boxes --- */
 .word-box {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 22px;
 }
 
-.info-line {
-  font-family: 'Orbitron', sans-serif;
-  color: #90caf9;
-  font-size: 0.95rem;
-  letter-spacing: 1px;
-  opacity: 0.9;
-}
-
-.letter-box {
-  width: 48px;
-  height: 56px;
-  font-size: 1.5rem;
-  border-radius: 6px;
+.letter-box, .guess-box {
+  width: clamp(42px, 8vw, 66px);
+  height: clamp(54px, 11vw, 76px);
+  font-size: clamp(1.5rem, 4vw, 2.3rem);
+  border-radius: 8px;
   background-color: #333942;
-  border: 1px solid #4a4f57;
+  border: 1.5px solid #4a4f57;
   color: #e6ecf1;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.08);
   font-weight: bold;
-  transition: box-shadow 0.2s;
-  overflow: visible; /* 讓ripple能超出方塊 */
+  position: relative;
+  transition: box-shadow 0.2s, background 0.2s;
+  overflow: visible;
 }
 
 .letter-box.active {
@@ -67,22 +70,11 @@ h1 {
   box-shadow: 0 0 8px #5dade2;
 }
 
-.letter-box.correct {
-  background-color: #2e86c1;
-  color: #fff;
-}
+.letter-box.correct, .guess-box.correct { background: #2e86c1; color: #fff; }
+.letter-box.misplaced, .guess-box.misplaced { background: #d4ac0d; color: #fff; }
+.letter-box.wrong, .guess-box.wrong { background: #c44536; color: #fff; }
 
-.letter-box.misplaced {
-  background-color: #d4ac0d;
-  color: #fff;
-}
-
-.letter-box.wrong {
-  background-color: #c44536;
-  color: #fff;
-}
-
-/* --- 金色波紋 --- */
+/* --- Word box special effect --- */
 .ripple {
   position: absolute;
   left: 50%; top: 100%;
@@ -90,27 +82,19 @@ h1 {
   width: 88px; height: 28px;
   border-radius: 50%;
   background: radial-gradient(ellipse at center,
-    #ffd900 0%,        /* 中心正金亮，偏橘 */
-    #f6a935d1 40%,       /* 橘金柔光 */
-    #f9df1bd9 70%,       /* 柔淡亮金 */
-    #ffe53fc4 90%,       /* 邊緣偏亮金白 */
-    #f5df9697 100%       /* 完全透明收邊 */
+    #ffd900 0%, #f6a935d1 40%, #f9df1bd9 70%, #ffe53fc4 90%, #f5df9697 100%
   );
-  opacity: 0.42; /* 亮一點！ */
+  opacity: 0.42;
   pointer-events: none;
   z-index: 2;
   animation: ripple-effect 3.0s 1.6s cubic-bezier(.2,.8,.4,1.2) both;
 }
 
-
-/* --- 波紋動畫 --- */
 @keyframes ripple-effect {
   0%   { transform: translate(-50%, -65%) scale(0.3); opacity: 0.38;}
   65%  { transform: translate(-50%, -22%) scale(1.25); opacity: 0.26;}
   100% { transform: translate(-50%, 0) scale(1.85); opacity: 0;}
 }
-
-/* --- 柔金光動畫（柔和，不蓋波紋） --- */
 @keyframes glow-gold {
   0%   { box-shadow: 0 0 6px #f9c84633;}
   20%  { box-shadow: 0 0 22px 7px #ffe07a99;}
@@ -118,8 +102,6 @@ h1 {
   60%  { box-shadow: 0 0 60px 36px #ffe07a66, 0 0 110px 64px #fffbe9cc;}
   100% { box-shadow: 0 0 6px #f9c84633;}
 }
-
-/* --- 慢十倍 --- */
 @keyframes shake-jump {
   0%, 5%    { transform: translateX(0) scale(1);}
   10%, 30%, 50% { transform: translateX(-10px) scale(1);}
@@ -130,8 +112,6 @@ h1 {
   90%           { transform: translateY(0) scale(1.03);}
   100%          { transform: translateY(0) scale(1);}
 }
-
-/* --- 合成動畫 --- */
 .letter-box.celebrate {
   animation:
     shake-jump 1.6s cubic-bezier(.45,1.5,.6,1),
@@ -139,138 +119,140 @@ h1 {
   z-index: 4;
 }
 
-.letter-buttons {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 8px;
-  justify-items: center;
-  margin-top: 24px;
+/* --- Info Line --- */
+.info-line {
+  font-family: 'Orbitron', sans-serif;
+  color: #90caf9;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  letter-spacing: 1px;
+  opacity: 0.92;
+  margin-bottom: 14px;
 }
 
-/* 改良版：Select your challenge 標題 */
+/* --- QWERTY Keyboard --- */
+.letter-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  align-items: center;
+  margin: 28px 0 0 0;
+  width: 100%;
+}
+.keyboard-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+/* --- QWERTY Key Button --- */
+.letter-btn {
+  width: clamp(36px, 6vw, 50px);
+  height: clamp(36px, 6vw, 50px);
+  font-size: clamp(1.12rem, 2.8vw, 1.4rem);
+  font-weight: bold;
+  background-color: #333942;
+  border: 1.2px solid #4a4f57;
+  color: #e1e8f0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.09s, box-shadow 0.15s;
+  user-select: none;
+  margin-bottom: 0;
+  outline: none;
+  box-shadow: 0 1px 6px rgba(25,25,25,0.1);
+}
+.letter-btn:active {
+  transform: scale(0.93);
+  box-shadow: 0 0 9px #90caf988;
+}
+.letter-btn.correct { background-color: #2e86c1 !important; color: #fff; }
+.letter-btn.misplaced { background-color: #d4ac0d !important; color: #fff; }
+.letter-btn.wrong { background-color: #c44536 !important; color: #fff; }
+
+/* --- Level/Begin Buttons --- */
+.level-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 28px;
+  margin: 30px auto 16px auto;
+  max-width: 360px;
+  justify-items: center;
+}
+.level-btn {
+  width: clamp(78px, 18vw, 105px);
+  height: clamp(38px, 8vw, 50px);
+  background-color: #333942;
+  border: 1.5px solid #4a4f57;
+  color: #e1e8f0;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.17);
+  font-size: clamp(1.07rem, 2.4vw, 1.17rem);
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  text-align: center;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: not-allowed;
+}
+.level-btn.active-level {
+  background-color: #43aaef;
+  color: #fff;
+  border: 1.5px solid #5dade2;
+  box-shadow: 0 0 6px #5dade2b8;
+  opacity: 1;
+  cursor: pointer;
+}
+.level-btn:hover {
+  background-color: #3d4754;
+  box-shadow: 0 0 6px #90caf970;
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* --- Begin Button --- */
+.start-btn {
+  display: block;
+  margin: 30px auto 0;
+  padding: 13px 38px;
+  background-color: #c0392b;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: clamp(1.07rem, 2.5vw, 1.23rem);
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.17s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.14);
+}
+.start-btn:hover { background-color: #e74c3c; }
+
+/* --- Meaning / Hint Text --- */
 .meaning-text {
-  margin-top: 32px;
-  font-size: 1.2rem;
+  margin-top: 34px;
+  font-size: clamp(1.12rem, 2.7vw, 1.25rem);
   color: #e6ecf1;
   text-align: center;
   letter-spacing: 0.5px;
 }
 
-/* 全新的難度按鈕區塊排版 */
-.level-buttons {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin: 20px auto;
-  max-width: 360px;
-  justify-content: center;
+/* --- Responsive for Phone --- */
+@media (max-width: 600px) {
+  .container {
+    max-width: 99vw;
+    padding: 24px 2vw 12vw 2vw;
+    margin: 6vw 0;
+    border-radius: 10px;
+  }
+  .word-box { gap: 7px; }
+  .keyboard-row { gap: 4px; }
+  .letter-buttons { margin-top: 20px; }
+  .level-buttons { gap: 11px 4vw; }
+  .start-btn { margin-top: 20px; }
 }
 
-.level-buttons.grid {
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px 24px;
-  margin-bottom: 28px;
-  justify-items: center;
-}
-
-
-.level-btn {
-  width: 75px;
-  height: 45px;
-  background-color: #333942;
-  border: 1px solid #4a4f57;
-  color: #e1e8f0;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  font-size: 1.1rem;
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 1px;
-  transition: all 0.2s ease;
-  text-align: center;
-  cursor: not-allowed;
-  opacity: 0.7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.level-btn:hover {
-  background-color: #3d4754;
-  box-shadow: 0 0 6px rgba(93, 173, 226, 0.5);
-  transform: translateY(-2px) scale(1.04);
-}
-
-.level-btn.active-level {
-  background-color: #43aaef;
-  color: white;
-  border: 1.5px solid #5dade2;
-  box-shadow: 0 0 6px rgba(93, 173, 226, 0.6);
-  cursor: pointer;
-}
-
-/* Begin 按鈕改為風格一致，位置整合 */
-.start-btn {
-  display: block;
-  margin: 24px auto 0;
-  padding: 12px 36px;
-  background-color: #c0392b;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-
-.start-btn:hover {
-  background-color: #e74c3c;
-}
-
-.letter-buttons button {
-  width: 40px;
-  height: 40px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  background-color: #333942;
-  border: 1px solid #4a4f57;
-  color: #e1e8f0;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
-}
-
-.letter-buttons button:hover {
-  background-color: #3d4754;
-  box-shadow: 0 0 6px rgba(93, 173, 226, 0.5);
-  transform: translateY(-2px) scale(1.04);
-}
-
-.letter-buttons button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-
-.letter-box.active {
-  outline: 2px solid #5dade2;
-  box-shadow: 0 0 8px #5dade2;
-}
-
-.letter-box.correct {
-  background-color: #2e86c1;
-  color: white;
-}
-
-.letter-box.misplaced {
-  background-color: #d4ac0d;
-  color: white;
-}
-
-.letter-box.wrong {
-  background-color: #c44536;
-  color: white;
-}
+/* --- Prevent horizontal scroll --- */
+body, html { overflow-x: hidden; }
