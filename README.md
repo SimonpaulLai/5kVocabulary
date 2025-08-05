@@ -1,8 +1,12 @@
-# 5kVocabulary
+# 5kVocabulary: Spelling AB
 
-A stylish web-based English vocabulary spelling game for self-learning and classroom use.  
+*A stylish, offline English vocabulary spelling game for self-learning and classroom use.
 Supports 5,000+ words, level selection, instant feedback, and modern animation effects.  
-All data and code run locally—no login or backend needed.
+All data and code run locally—no login or backend needed.*
+
+## Live demo
+
+Available at [![Spelling AB](https://img.shields.io/badge/demo-online-brightgreen)(https://simonpaullai.github.io/5kVocabulary/)].
 
 ## Features
 
@@ -20,9 +24,13 @@ All data and code run locally—no login or backend needed.
 
 - **Immediate Feedback**  
   - Letter color changes:  
-    - Green: correct position  
+    - Blue: correct position  
     - Yellow: correct letter, wrong position  
     - Red: letter not in answer
+
+- **QWERTY Keyboard Support**
+  - On-screen keyboard for input
+  - Memory/highlighting for guessed letters
 
 - **No Login, No Ads**  
   Designed for privacy and smooth offline classroom use.
@@ -33,7 +41,7 @@ All data and code run locally—no login or backend needed.
 2. **Select a level** (Lv.1–6) based on your needs.
 3. Click **Begin** to start a new word challenge.
 4. Click the letter boxes to select and fill in your answer.
-5. Use the A–Z buttons to guess letters.
+5. Use the on-screen **QWERTY** buttons to guess letters.
 6. Enjoy the glowing, jumping, and ripple animations for correct answers!
 
 ## File Structure
@@ -46,7 +54,7 @@ All data and code run locally—no login or backend needed.
 
 ## Customization
 
-- You can replace `7kVoc.json` with your own wordlist using the format:
+- You can replace `5kVoc.json` with your own wordlist using the format:
   ```json
   [
     {
@@ -58,9 +66,34 @@ All data and code run locally—no login or backend needed.
     ...
   ]
 
+## Installation
+
+1. Download this repository (Code > Download ZIP) or git clone.
+2. Open index.html in your browser—no setup or installation required!
+
+## Updatelog
+- [x] Update QWERTY style keyboard input
+- [x] Adding keyboard memory/highlight feature
+- [x] Update responsive layout adjustments
+- [ ] Multi-language support (UI & hints)
+- [ ] Physical keyboard input support
+- [ ] Race mode: Timer feature
+- [ ] Challenge mode: Count down or restricted error feature
+- [ ] Update pre/in-game hints
+- [ ] Adding more control buttons (restart, show answer, skip word, etc.)
+- [ ] Adding In-game tutorial & rules, information, adjustments, etc
+- [ ] Default to Lv.1 on startup
+*More features coming soon!!*
+
 ## Credits
 
 UI & code: [SimonpaulLai]
 Vocabulary Data: [Taiwan College Entrance Exam English Vocabulary List, CEEC](https://www.ceec.edu.tw/SourceUse/ce37/ce37.htm)
 Chinese Translations: Generated via Google Translator
-Inspiration: Modern spelling and puzzle games (e.g. Wordle, Spelling Bee)
+Inspiration: Modern spelling and puzzle games (e.g. Wordle, Spelling Bee, 1A2B)
+
+## Notes
+
+Pull requests, feature suggestions, and issues are welcome!
+Designed for both self-study and classroom use —- good for English teachers and students.
+
