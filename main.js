@@ -1,23 +1,28 @@
-let selectedLevel = null;
-let answer = "";            // 正確單字
-let currentGuess = [];      // 玩家目前猜的字母
-let activeBoxIndex = 0;     // 目前選中的格子編號
-
-
-// 產生 A~Z 鍵盤按鈕
+// 產生 qwer 鍵盤按鈕
 function generateAlphabetButtons() {
+  const qwertyRows = [
+    ['Q','W','E','R','T','Y','U','I','O','P'],
+    ['A','S','D','F','G','H','J','K','L'],
+    ['Z','X','C','V','B','N','M']
+  ];
   const letterContainer = document.getElementById('letter-buttons');
   letterContainer.innerHTML = '';
 
-  for (let i = 65; i <= 90; i++) {
-    const letter = String.fromCharCode(i);
-    const btn = document.createElement('button');
-    btn.textContent = letter;
-    btn.className = 'letter-btn';
-    btn.addEventListener('click', () => handleLetterClick(letter));
-    letterContainer.appendChild(btn);
-  }
+  qwertyRows.forEach(row => {
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'keyboard-row';
+    row.forEach(letter => {
+      const btn = document.createElement('button');
+      btn.textContent = letter;
+      btn.className = 'letter-btn';
+      btn.id = `key-${letter}`;
+      btn.addEventListener('click', () => handleLetterClick(letter));
+      rowDiv.appendChild(btn);
+    });
+    letterContainer.appendChild(rowDiv);
+  });
 }
+
 
 // 動態顯示單字字母方塊
 function renderLetterBoxes(word, isGuessing = false) {
@@ -68,11 +73,19 @@ async function loadFirstWord() {
   }
 }
 
+function resetKeyboardColors() {
+  document.querySelectorAll('.letter-btn').forEach(btn => {
+    btn.classList.remove('correct', 'misplaced', 'wrong');
+  });
+}
+
+
 // 點擊 Begin 後 → 從選定等級隨機挑一筆單字
 async function loadRandomWordByLevel() {
+  resetKeyboardColors();// 重置鍵盤顏色
   if (!selectedLevel) {
     // 初始 info-box 提示（不跳 alert）
-    document.getElementById("info-box").textContent = "🛈 Please choose a level before beginning.";
+    document.getElementById("info-box").textContent = "Please choose a level before beginning.";
     return;
   }
 
@@ -118,18 +131,32 @@ function handleLetterClick(letter) {
   const answerLower = answer.toLowerCase();
   const targetLetter = answerLower[activeBoxIndex];
   const currentLetter = letter.toLowerCase();
+  const keyBtn = document.getElementById(`key-${letter.toUpperCase()}`);
 
   if (!answerLower.includes(currentLetter)) {
     boxes[activeBoxIndex].className = "letter-box guess-box wrong";
+    // ✅ 只有還沒標記為 correct/misplaced 才會標記 wrong
+    if (keyBtn && !keyBtn.classList.contains('correct') && !keyBtn.classList.contains('misplaced')) {
+      keyBtn.classList.add('wrong');
+    }
   } else if (currentLetter === targetLetter) {
     boxes[activeBoxIndex].className = "letter-box guess-box correct";
-    // ✅ 只有正確時才自動往下
+    // ✅ correct 狀態會覆蓋其他狀態
+    if (keyBtn) {
+      keyBtn.classList.add('correct');
+      keyBtn.classList.remove('wrong', 'misplaced');
+    }
     if (activeBoxIndex < boxes.length - 1) {
       activeBoxIndex++;
       boxes.forEach((b, i) => b.classList.toggle("active", i === activeBoxIndex));
     }
   } else {
     boxes[activeBoxIndex].className = "letter-box guess-box misplaced";
+    // ✅ misplaced 只能覆蓋 wrong
+    if (keyBtn && !keyBtn.classList.contains('correct')) {
+      keyBtn.classList.add('misplaced');
+      keyBtn.classList.remove('wrong');
+    }
     // 不自動跳
   }
 
@@ -167,4 +194,3 @@ document.getElementById("start-btn").addEventListener("click", loadRandomWordByL
 generateAlphabetButtons();
 renderLetterBoxes("???");
 document.getElementById("info-line").textContent = "Hint: Select a level and begin!";
-
